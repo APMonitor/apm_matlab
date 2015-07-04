@@ -1,0 +1,103 @@
+! Four tank process
+! K-H.Johansson: The Quadruple-Tank Process: 
+!   A Multivariable Process with an Adjustable Zero, 
+!   IEEE Transaction on control systems technology, 2000
+! http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=845876
+! http://www.s3.kth.se/~kallej/papers/quadtank_ieeecst00.pdf
+
+! Further detail are given here:
+! http://www.s3.kth.se/~kallej/grad_students/drca_thesis07.pdf
+
+Model
+  Constants
+    ! gravitational constant (cm/s^2)
+    g = 981
+
+    ! tank cross-sectional area (cm^2)
+    Area[1] = 28
+    Area[2] = 32
+    Area[3] = 28
+    Area[4] = 32
+
+    ! cross section of the outlet hole (cm^2)
+    !a[1] = 0.071 ! - 0.0650  ! - correction factor to match real data
+    !a[2] = 0.057 ! - 0.0520  ! - correction factor to match real data
+    !a[3] = 0.071 ! - 0.0650  ! - correction factor to match real data
+    !a[4] = 0.057 ! - 0.0520  ! - correction factor to match real data
+    
+    ! relation of level to voltage measurement (V/cm)
+    kc = 0.50 
+  End Constants
+
+  Parameters
+    ! relation of input voltage to pump flow rate (cm^3/sec / V)
+    km = 3.44407, >=3.0, <=20.0  ! slope
+    kb = -0.809711, >=-20.0, <=20.0   ! intercept
+
+    ! correction factors to fit model to real data
+    c13 = 0.063045, >0.01, <=0.2  ! outlet flow corrections
+    c24 = 0.058218, >0.01, <=0.2  ! outlet flow corrections
+  
+    ! fractional split to tank 1 vs. tank 4
+    gamma[1] = 0.584603, >=0, <=1  
+
+    ! fractional split to tank 2 vs. tank 3
+    gamma[2] = 0.548129, >=0, <=1  
+
+    ! voltage to pump A
+    v1 = 3, >=0, <=10      ! Volt  
+
+    ! voltage to pump B
+    v2 = 3, >=0, <=10      ! Volt  
+  End Parameters
+  
+  Variables
+    ! tank height - diameter = 6 cm,  max height = 20 cm
+    h[1] = 12.6, >=1e-5
+    h[2] = 13.0, >=1e-5
+    h[3] = 4.8 , >=1e-5
+    h[4] = 4.9 , >=1e-5
+  End Variables
+
+  Intermediates
+    ! correction factors
+    c[1] = c13
+    c[2] = c24
+    c[3] = c13
+    c[4] = c24
+  
+    ! pump flows
+    qa = v1 * km + kb
+    qb = v2 * km + kb
+  
+    ! inlet flows from pumps
+    q[1] = gamma[1] * qa
+    q[2] = gamma[2] * qb
+    q[3] = (1-gamma[2]) * qb
+    q[4] = (1-gamma[1]) * qa
+
+    ! outlet flows
+    out[1:4] = c[1:4] * sqrt(2*g*h[1:4])
+
+    ! total inlet flows
+    in[1] = q[1] + out[3]
+    in[2] = q[2] + out[4]
+    in[3] = q[3]
+    in[4] = q[4]
+  End Intermediates
+
+  Equations
+    Area[1:4] * $h[1:4] = in[1:4] - out[1:4] 
+  End Equations
+End Model
+
+File *.plt
+  New Trend
+    v1
+    v2
+  New Trend
+    v1
+    v2
+    h[1]
+    h[2]
+End File

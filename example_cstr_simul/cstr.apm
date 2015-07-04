@@ -1,0 +1,23 @@
+Model
+  Parameters
+    Tc = 270    ! Temperature of cooling jacket (K)
+    q = 100     ! Volumetric Flowrate (m^3/sec)
+    V = 100     ! Volume of CSTR (m^3)
+    rho = 1000  ! Density of A-B Mixture (kg/m^3)
+    Cp = .239   ! Heat capacity of A-B Mixture (J/kg-K)
+    mdelH = 5e4 ! Heat of reaction for A->B (J/mol)
+    EoverR = 8750 ! EoverR = E/R = Activation energy / R (8.31451 J/mol-K) 
+    k0 = 7.2e10   ! Pre-exponential factor (1/sec)
+    UA = 5e4      ! Overall Heat Transfer Coefficient (W/m^2-K)
+    Caf = 1       ! Feed Concentration (mol/m^3)
+    Tf = 350      ! Feed Temperature (K)
+  End Parameters
+  Variables
+    Ca = 0.989    ! Concentration of A in CSTR (mol/m^3)
+    T  = 296.6    ! Temperature in CSTR (K)
+  End Variables
+  Equations
+    V * $Ca = q*(Caf-Ca) - k0*V*exp(-EoverR/T)*Ca      ! mole balance for species A
+    rho*Cp*V * $T = q*rho*Cp*(Tf - T) + V*mdelH*k0*exp(-EoverR/T)*Ca + UA*(Tc-T)  ! energy balance
+  End Equations
+End Model

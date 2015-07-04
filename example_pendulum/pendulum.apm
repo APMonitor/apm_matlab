@@ -1,0 +1,25 @@
+! Pendulum - Index 3 DAE
+! http://apmonitor.com/wiki/index.php/Apps/PendulumMotion
+Model pend
+  Parameters
+    m = 1     ! mass of pendulum
+    g = 9.81  ! gravitational constant
+    s = 1     ! length of pendulum
+  End Parameters
+
+  Variables
+    x = 0     ! horizontal position from pivot point
+    y = -s    ! vertical position from pivot point
+    v = 1     ! horizontal velocity
+    w = 0     ! vertical velocity
+    lam       ! intial condition: m*(1+s*g)/2*s^2
+  End Variables
+
+  Equations
+    x^2 + y^2 = s^2
+    $x = v
+    $y = w
+    m*$v = -2*x*lam
+    m*$w = -m*g - 2*y*lam
+  End Equations
+End Model

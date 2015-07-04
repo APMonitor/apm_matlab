@@ -1,0 +1,16 @@
+Model                
+  Parameters         
+   tau = 5           
+   u = 3, >=0, < 100 
+  End Parameters     
+
+  Variables          
+   x                 
+   y                 
+  End Variables      
+
+  Equations          
+   tau * $x + x = u  
+   y = 2 * x         
+  End Equations      
+End Model            
