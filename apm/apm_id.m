@@ -73,7 +73,7 @@ fprintf(fid,'Variables\n');
 fprintf(fid,'  y[m+1:n][1::no] = 0\n');
 fprintf(fid,'  sum_a[1:no] = 0\n');
 fprintf(fid,'  sum_b[1:ni][1::no] = 0\n');
-fprintf(fid,'  K[1:ni][1::no] = 0\n');
+fprintf(fid,'  K[1::no][1:ni] = 0\n');
 fprintf(fid,'  \n');
 fprintf(fid,'Equations\n');
 fprintf(fid,'  y[m+1:n][1::no] = a[1][1::no]*y[m:n-1][1::no]');
@@ -88,7 +88,7 @@ for i = 2:ny
 end
 fprintf(fid,'\n');
 %        K(i,j) = sum(beta(:,j,i)) / (1-sum(alpha(:,i)));
-fprintf(fid,'  K[1:ni][1::no] * (1 - sum_a[1::no]) = sum_b[1:ni][1::no]\n');
+fprintf(fid,'  K[1::no][1:ni] * (1 - sum_a[1::no]) = sum_b[1:ni][1::no]\n');
 fprintf(fid,'  minimize %12.8f * (y[m+1:n][1::no] - z[m+1:n][1::no])^2\n',obj_scale);
 fclose(fid);
 

@@ -16,5 +16,5 @@ load test_data.csv
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % generate state space model
-addpath('apm')
+addpath('../apm')
 sysd = apm_id(test_data,ni,nu,ny);
