@@ -1,0 +1,12 @@
+Parameters
+  t_outside = 0
+  int_heater = 0 , <= 1 , >= 0
+  ua = 5
+  
+Variables
+  t_inside
+  
+Equations
+  5 * $t_inside = -ua * (t_inside-t_outside) + (int_heater * 10 )
+  
+  
