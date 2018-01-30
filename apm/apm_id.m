@@ -199,13 +199,10 @@ if (~fast),
     % plot results
     figure(1)
     
-    subplot(3,1,1)
+    subplot(2,1,1)
     plot(time,u(:,1),'r-','LineWidth',2);
-    
-    subplot(3,1,2)
-    plot(time,u(:,2),'k:','LineWidth',2);
-    
-    subplot(3,1,3)
+        
+    subplot(2,1,2)
     plot(time,y,'b--','LineWidth',2);
     hold on
     plot(time,ypred);
